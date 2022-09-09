@@ -1,5 +1,6 @@
 package jongjun.hairlog.initConfig;
 
+import jongjun.hairlog.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,6 @@ public class DataInit {
     @PostConstruct
     @Transactional
     public void init() {
-        memberInit.init();
+        memberInit.initMember();
     }
 }

@@ -7,7 +7,12 @@ import jongjun.hairlog.service.serviceInterface.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+
+import static jongjun.hairlog.web.SessionConst.LoginMember;
+
 @Component
 @RequiredArgsConstructor
 public class MemberInit {
@@ -17,7 +22,7 @@ public class MemberInit {
     /**
      * 새로운 Member를 만들고 Member를 가입시킨다.
      */
-    public void init() {
+    public void initMember() {
         Member member = new Member("nanakim@gmail.com", "1234", "나나김", MemberSex.m, 3L, new SQLDate(LocalDateTime.now(), LocalDateTime.now()));
         memberService.join(member);
     }
