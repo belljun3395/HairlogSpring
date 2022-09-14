@@ -5,14 +5,15 @@ import jongjun.hairlog.domain.member.Member;
 import jongjun.hairlog.domain.record.Record;
 import jongjun.hairlog.repository.repositoryInterface.RecordRepository;
 import jongjun.hairlog.service.serviceInterface.MemberService;
-import jongjun.hairlog.web.dto.LoginDTO;
-import jongjun.hairlog.web.dto.MemberDTO;
-import jongjun.hairlog.web.dto.PrivacyDateDTO;
+import jongjun.hairlog.web.dto.post.LoginDTO;
+import jongjun.hairlog.web.dto.post.PostMemberDTO;
+import jongjun.hairlog.web.dto.post.PostPrivacyDateDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
@@ -21,27 +22,34 @@ import java.util.Optional;
 
 import static jongjun.hairlog.web.SessionConst.LoginMember;
 
-// todo bindingResult 알아보기
-// todo @Valiated 알아보기
-// todo IllegalStateException 알아보기
+@Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/member")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
     private final RecordRepository recordRepository;
-    private final EntityManager em;
 
     @PostMapping("/join")
-    public Long join(@Validated MemberDTO memberDTO) {
-//        memberDTO.setSqldate(new SQLDate(LocalDateTime.now(), LocalDateTime.now()));
-        Member member = memberDTO.toEntity();
+    public Long join(@Validated PostMemberDTO postMemberDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            throw new IllegalStateException(bindingResult.getFieldError()
+                                                         .getDefaultMessage());
+        }
+        Member member = postMemberDTO.toEntity();
         return memberService.join(member);
     }
 
     @PostMapping("/authenticate")
-    public void login(@Validated LoginDTO loginDTO, HttpServletRequest req) {
+    public void login(HttpServletRequest req, @Validated LoginDTO loginDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            throw new IllegalStateException(bindingResult.getFieldError()
+                                                         .getDefaultMessage());
+        }
+
         Member loginMember = memberService.login(loginDTO.getUserEmail(), loginDTO.getUserPassword());
         if (loginMember == null) {
             throw new IllegalStateException("로그인에 실패하였습니다");
@@ -64,26 +72,31 @@ public class MemberController {
         return memberService.checkPassword(loginMember.getId(), userPassword);
     }
 
-    @PostMapping("/joinDelete")
+    @PostMapping("/delete")
     public boolean deleteMember(HttpServletRequest req, @SessionAttribute(LoginMember) Member loginMember) {
         boolean deleteMember = memberService.deleteMember(loginMember);
         logout(req);
         return deleteMember;
     }
 
-    @PostMapping("/privacyUpdate/user")
-    public void updatePrivacy(HttpServletRequest req, @SessionAttribute(LoginMember) Member loginMember, MemberDTO updateMemberRecord) {
-        MemberDTO memberDTO = new MemberDTO(loginMember, updateMemberRecord, new SQLDate(loginMember.getSqldate()
-                                                                                                    .getCreatedAt(), LocalDateTime.now()));
-        Member memberEntity = memberDTO.toEntity();
+    @PostMapping("/update")
+    public void updatePrivacy(HttpServletRequest req, @SessionAttribute(LoginMember) Member loginMember, PostMemberDTO updateMemberRecord, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            throw new IllegalStateException(bindingResult.getFieldError()
+                                                         .getDefaultMessage());
+        }
+        PostMemberDTO postMemberDTO = new PostMemberDTO(loginMember, updateMemberRecord, new SQLDate(loginMember.getSqldate()
+                                                                                                                .getCreatedAt(), LocalDateTime.now()));
+        Member memberEntity = postMemberDTO.toEntity();
         Member updateMember = memberService.updateMember(memberEntity);
 
         HttpSession session = req.getSession();
         session.setAttribute(LoginMember, updateMember);
     }
 
-    @GetMapping("/privacy/user")
-    public PrivacyDateDTO privacyDate(@SessionAttribute(LoginMember) Member loginMember) {
+    @GetMapping("/memberInfo")
+    public PostPrivacyDateDTO privacyDate(@SessionAttribute(LoginMember) Member loginMember) {
         Optional<Record> latestRecord = recordRepository.findRecords(loginMember.getId())
                                                         .stream()
                                                         .findFirst();
@@ -96,7 +109,7 @@ public class MemberController {
         LocalDate recentDate = record.getRecordDate();
         LocalDate nextDate = recentDate.plusDays(loginMember.getCycle());
 
-        return new PrivacyDateDTO(loginMember.getName(), recentDate, nextDate);
+        return new PostPrivacyDateDTO(loginMember.getName(), recentDate, nextDate);
     }
 
 }
