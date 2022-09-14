@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jongjun.hairlog.domain.SQLDate;
 import jongjun.hairlog.domain.designer.Designer;
 import jongjun.hairlog.domain.member.Member;
+import jongjun.hairlog.web.dto.get.GetRecordDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,28 +44,27 @@ public abstract class Record {
     private SQLDate sqldate;
 
     @Setter
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @JsonIgnore
     private Member member;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "designer_id")
-    @JsonIgnore
     private Designer designer;
 
-    @Override
-    public String toString() {
-        return "Record{" +
-                "id=" + id +
-                ", recordDate=" + recordDate +
-                ", recordCost=" + recordCost +
-                ", recordEtc='" + recordEtc + '\'' +
-                ", designerName='" + designerName + '\'' +
-                ", recordGrade=" + recordGrade +
-                ", createdAt=" + sqldate.getCreatedAt() +
-                ", updatedAt=" + sqldate.getUpdatedAt() +
-                ", deletedAt=" + sqldate.getDeletedAt() +
-                '}';
+    public GetRecordDTO toDTO() {
+        return GetRecordDTO.builder()
+                           .id(id)
+                           .recordDate(recordDate)
+                           .recordCost(recordCost)
+                           .designerName(designerName)
+                           .recordEtc(recordEtc)
+                           .recordGrade(recordGrade)
+                           .createdAt(sqldate.getCreatedAt())
+                           .updatedAt(sqldate.getUpdatedAt())
+                           .deletedAt(sqldate.getDeletedAt())
+                           .build();
     }
 }

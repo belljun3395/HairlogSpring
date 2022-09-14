@@ -1,22 +1,21 @@
-package jongjun.hairlog.web.dto;
+package jongjun.hairlog.web.dto.post;
 
 import jongjun.hairlog.domain.SQLDate;
 import jongjun.hairlog.domain.designer.Designer;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DesignerDTO {
+public class PostDesignerDTO {
 
     private Long id;
 
+    @NotBlank
     private String designerName;
 
     private String designerSalon;
@@ -28,5 +27,6 @@ public class DesignerDTO {
                        .sqldate(new SQLDate(LocalDateTime.now(), LocalDateTime.now()))
                        .build();
     }
+
 
 }

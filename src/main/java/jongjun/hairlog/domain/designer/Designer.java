@@ -3,6 +3,7 @@ package jongjun.hairlog.domain.designer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jongjun.hairlog.domain.SQLDate;
 import jongjun.hairlog.domain.member.Member;
+import jongjun.hairlog.web.dto.get.GetDesignerDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,21 +30,19 @@ public class Designer {
 
     // todo check JsonIgnore
     @Setter
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
-    @JsonIgnore
     private Member member;
 
-    @Override
-    public String toString() {
-        return "Designer{" +
-                "id=" + id +
-                ", designerName='" + designerName + '\'' +
-                ", designerSalon='" + designerSalon + '\'' +
-                ", designerFav=" + designerFav +
-                ", createdAt=" + sqldate.getCreatedAt() +
-                ", updatedAt=" + sqldate.getUpdatedAt() +
-                ", deletedAt=" + sqldate.getDeletedAt() +
-                '}';
+    public GetDesignerDTO toDTO() {
+        return GetDesignerDTO.builder()
+                             .id(id)
+                             .designerName(designerName)
+                             .designerSalon(designerSalon)
+                             .designerFav(designerFav)
+                             .sqldate(sqldate)
+                             .build();
     }
+
 }

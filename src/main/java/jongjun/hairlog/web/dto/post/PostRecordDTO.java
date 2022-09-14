@@ -1,34 +1,34 @@
-package jongjun.hairlog.web.dto;
+package jongjun.hairlog.web.dto.post;
 
 import jongjun.hairlog.domain.SQLDate;
-import jongjun.hairlog.domain.designer.Designer;
-import jongjun.hairlog.domain.member.Member;
 import jongjun.hairlog.domain.record.Record;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecordDTO {
+public class PostRecordDTO {
 
     private Long id;
 
+    @NotNull
     private String recordDate;
 
+    @NotBlank
     private Integer recordCost;
 
+    @NotBlank
     private String designerName;
 
     private String recordEtc;
 
+    @NotNull
     private Integer recordGrade;
 
+    @NotNull
     private Record category;
 
     private SQLDate sqldate;

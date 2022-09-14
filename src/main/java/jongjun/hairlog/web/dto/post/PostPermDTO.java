@@ -1,30 +1,29 @@
-package jongjun.hairlog.web.dto;
+package jongjun.hairlog.web.dto.post;
 
 import jongjun.hairlog.domain.SQLDate;
 import jongjun.hairlog.domain.record.Perm;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 
 import static jongjun.hairlog.web.dto.method.Transfer.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PermDTO {
+public class PostPermDTO {
 
+    @NotBlank
     private String permName;
 
     private String permTime;
 
     private String permHurt;
 
-    public Perm toEntity(RecordDTO recordDTO) throws ParseException {
+    public Perm toEntity(PostRecordDTO recordDTO) throws ParseException {
         return Perm.builder()
                    .recordDate(toLocalDateTime(recordDTO.getRecordDate()))
                    .recordCost(recordDTO.getRecordCost())

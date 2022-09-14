@@ -1,5 +1,6 @@
 package jongjun.hairlog.domain.record;
 
+import jongjun.hairlog.web.dto.get.GetRecordDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,12 +28,24 @@ public class Dyeing extends Record {
     private String dyeingHurt;
 
     @Override
-    public String toString() {
-        return "Dyeing{" +
-                "dyeingColor='" + dyeingColor + '\'' +
-                ", dyeingDecolorization='" + dyeingDecolorization + '\'' +
-                ", dyeingTime='" + dyeingTime + '\'' +
-                ", dyeingHurt='" + dyeingHurt + '\'' +
-                '}';
+    public GetRecordDTO toDTO() {
+        return GetRecordDTO.builder()
+                           .id(super.getId())
+                           .recordDate(super.getRecordDate())
+                           .recordCost(super.getRecordCost())
+                           .designerName(super.getDesignerName())
+                           .recordEtc(super.getRecordEtc())
+                           .recordGrade(super.getRecordGrade())
+                           .createdAt(super.getSqldate()
+                                           .getCreatedAt())
+                           .updatedAt(super.getSqldate()
+                                           .getUpdatedAt())
+                           .deletedAt(super.getSqldate()
+                                           .getDeletedAt())
+                           .dyeingColor(dyeingColor)
+                           .dyeingDecolorization(dyeingDecolorization)
+                           .dyeingTime(dyeingTime)
+                           .dyeingHurt(dyeingHurt)
+                           .build();
     }
 }

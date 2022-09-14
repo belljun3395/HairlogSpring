@@ -1,24 +1,23 @@
-package jongjun.hairlog.web.dto;
+package jongjun.hairlog.web.dto.post;
 
-import com.sun.istack.NotNull;
 import jongjun.hairlog.domain.SQLDate;
 import jongjun.hairlog.domain.member.Member;
 import jongjun.hairlog.domain.member.MemberSex;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDTO {
+public class PostMemberDTO {
 
     private Long id;
 
-    @NotNull
+    @NotBlank
     private String userName;
 
     @NotNull
@@ -27,21 +26,21 @@ public class MemberDTO {
     @NotNull
     private Long userCycle;
 
-    @NotNull
+    @Email
     private String userEmail;
 
-    @NotNull
+    @NotBlank
     private String userPassword;
 
     private SQLDate sqldate;
 
-    public MemberDTO(Member member, MemberDTO memberDTO, SQLDate sqldate) {
+    public PostMemberDTO(Member member, PostMemberDTO postMemberDTO, SQLDate sqldate) {
         this.id = member.getId();
-        this.userName = memberDTO.getUserName();
-        this.userSex = memberDTO.getUserSex();
-        this.userCycle = memberDTO.getUserCycle();
-        this.userEmail = memberDTO.getUserEmail();
-        this.userPassword = memberDTO.getUserPassword();
+        this.userName = postMemberDTO.getUserName();
+        this.userSex = postMemberDTO.getUserSex();
+        this.userCycle = postMemberDTO.getUserCycle();
+        this.userEmail = postMemberDTO.getUserEmail();
+        this.userPassword = postMemberDTO.getUserPassword();
         this.sqldate = sqldate;
     }
 

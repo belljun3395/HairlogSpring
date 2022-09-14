@@ -1,7 +1,7 @@
 package jongjun.hairlog.domain.record;
 
+import jongjun.hairlog.web.dto.get.GetRecordDTO;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -22,10 +22,22 @@ public class Cut extends Record {
     private String cutLength;
 
     @Override
-    public String toString() {
-        return "Cut{" +
-                "cutName='" + cutName + '\'' +
-                ", cutLength='" + cutLength + '\'' +
-                '}';
+    public GetRecordDTO toDTO() {
+        return GetRecordDTO.builder()
+                           .id(super.getId())
+                           .recordDate(super.getRecordDate())
+                           .recordCost(super.getRecordCost())
+                           .designerName(super.getDesignerName())
+                           .recordEtc(super.getRecordEtc())
+                           .recordGrade(super.getRecordGrade())
+                           .createdAt(super.getSqldate()
+                                           .getCreatedAt())
+                           .updatedAt(super.getSqldate()
+                                           .getUpdatedAt())
+                           .deletedAt(super.getSqldate()
+                                           .getDeletedAt())
+                           .cutLength(cutLength)
+                           .cutName(cutName)
+                           .build();
     }
 }

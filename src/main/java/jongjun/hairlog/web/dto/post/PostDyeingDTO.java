@@ -1,24 +1,22 @@
-package jongjun.hairlog.web.dto;
+package jongjun.hairlog.web.dto.post;
 
 
 import jongjun.hairlog.domain.SQLDate;
 import jongjun.hairlog.domain.record.Dyeing;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 
 import static jongjun.hairlog.web.dto.method.Transfer.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DyeingDTO {
+public class PostDyeingDTO {
 
+    @NotBlank
     private String dyeingColor;
 
     private String dyeingDecolorization;
@@ -28,7 +26,7 @@ public class DyeingDTO {
     private String dyeingHurt;
 
 
-    public Dyeing toEntity(RecordDTO recordDTO) throws ParseException {
+    public Dyeing toEntity(PostRecordDTO recordDTO) throws ParseException {
         return Dyeing.builder()
                      .recordDate(toLocalDateTime(recordDTO.getRecordDate()))
                      .recordCost(recordDTO.getRecordCost())

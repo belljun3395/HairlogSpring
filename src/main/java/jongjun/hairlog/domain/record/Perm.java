@@ -1,5 +1,6 @@
 package jongjun.hairlog.domain.record;
 
+import jongjun.hairlog.web.dto.get.GetRecordDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,11 +26,23 @@ public class Perm extends Record {
     private String permHurt;
 
     @Override
-    public String toString() {
-        return "Perm{" +
-                "permName='" + permName + '\'' +
-                ", permTime='" + permTime + '\'' +
-                ", permHurt='" + permHurt + '\'' +
-                '}';
+    public GetRecordDTO toDTO() {
+        return GetRecordDTO.builder()
+                           .id(super.getId())
+                           .recordDate(super.getRecordDate())
+                           .recordCost(super.getRecordCost())
+                           .designerName(super.getDesignerName())
+                           .recordEtc(super.getRecordEtc())
+                           .recordGrade(super.getRecordGrade())
+                           .createdAt(super.getSqldate()
+                                           .getCreatedAt())
+                           .updatedAt(super.getSqldate()
+                                           .getUpdatedAt())
+                           .deletedAt(super.getSqldate()
+                                           .getDeletedAt())
+                           .permHurt(permHurt)
+                           .permName(permName)
+                           .permTime(permTime)
+                           .build();
     }
 }
