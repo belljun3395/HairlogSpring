@@ -13,7 +13,6 @@ public interface DesignerService {
 
     List<Designer> getFaveDesigner(Long memberId);
 
-    Boolean deleteDesigner(Member member, Long designerId);
-
+    Boolean deleteDesigner(Long memberId, Long designerId);
 
 }

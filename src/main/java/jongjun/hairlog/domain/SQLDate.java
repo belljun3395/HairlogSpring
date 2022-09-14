@@ -43,12 +43,4 @@ public class SQLDate {
         this.deletedAt = deletedAt;
     }
 
-    @Override
-    public String toString() {
-        return "SQLDate{" +
-                "createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", deletedAt=" + deletedAt +
-                '}';
-    }
 }

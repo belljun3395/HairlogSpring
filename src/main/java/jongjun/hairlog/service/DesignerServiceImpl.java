@@ -34,7 +34,7 @@ public class DesignerServiceImpl implements DesignerService {
 
     @Override
     @Transactional
-    public Boolean deleteDesigner(Member member, Long designerId) {
-        return designerRepository.delete(member, designerId);
+    public Boolean deleteDesigner(Long memberId, Long designerId) {
+        return designerRepository.delete(memberId, designerId);
     }
 }

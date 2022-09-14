@@ -9,7 +9,7 @@ public interface DesignerRepository {
 
     Designer save(Designer designer);
 
-    Boolean delete(Member member, Long designerId);
+    Boolean delete(Long memberId, Long designerId);
 
     Designer findById(Long designerId);
 

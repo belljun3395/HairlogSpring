@@ -1,5 +1,6 @@
 package jongjun.hairlog.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jongjun.hairlog.domain.SQLDate;
 import jongjun.hairlog.domain.designer.Designer;
 import jongjun.hairlog.domain.record.Record;
@@ -33,9 +34,11 @@ public class Member {
     @Embedded
     private SQLDate sqldate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Record> records;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Designer> designers;
 
@@ -59,22 +62,6 @@ public class Member {
         this.sex = sex;
         this.cycle = cycle;
         this.sqldate = sqldate;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", sex=" + sex +
-                ", cycle=" + cycle +
-                ", createdAt=" + sqldate.getCreatedAt() +
-                ", updatedAt=" + sqldate.getUpdatedAt() +
-                ", deletedAt=" + sqldate.getDeletedAt() +
-                '}';
     }
 
 }

@@ -25,10 +25,11 @@ public class DesignerRepositoryImpl implements DesignerRepository {
         return designer;
     }
 
+    // todo member or memberId?
     @Override
-    public Boolean delete(Member member, Long designerId) {
-        Optional<Designer> persistDesigner = em.createQuery("select d from Designer d where d.member = :member and d.id = :designerId", Designer.class)
-                                               .setParameter("member", member)
+    public Boolean delete(Long memberId, Long designerId) {
+        Optional<Designer> persistDesigner = em.createQuery("select d from Designer d where d.member.id = :memberId and d.id = :designerId", Designer.class)
+                                               .setParameter("memberId", memberId)
                                                .setParameter("designerId", designerId)
                                                .getResultList()
                                                .stream()
