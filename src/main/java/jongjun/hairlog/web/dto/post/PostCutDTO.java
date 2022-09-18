@@ -15,7 +15,7 @@ import static jongjun.hairlog.web.dto.method.Transfer.toLocalDateTime;
 @AllArgsConstructor
 public class PostCutDTO {
 
-    @NotBlank
+    @NotBlank(message = "컷 이름을 입력하세요")
     private String cutName;
 
     private String cutLength;

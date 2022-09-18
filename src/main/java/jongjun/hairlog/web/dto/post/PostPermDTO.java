@@ -16,7 +16,7 @@ import static jongjun.hairlog.web.dto.method.Transfer.*;
 @AllArgsConstructor
 public class PostPermDTO {
 
-    @NotBlank
+    @NotBlank(message = "펌 이름을 입력하세요")
     private String permName;
 
     private String permTime;

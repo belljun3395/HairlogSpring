@@ -15,7 +15,7 @@ public class PostDesignerDTO {
 
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "디자이너 이름을 입력하세요")
     private String designerName;
 
     private String designerSalon;

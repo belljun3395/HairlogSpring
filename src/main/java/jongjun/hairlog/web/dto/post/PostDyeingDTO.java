@@ -16,7 +16,7 @@ import static jongjun.hairlog.web.dto.method.Transfer.*;
 @AllArgsConstructor
 public class PostDyeingDTO {
 
-    @NotBlank
+    @NotBlank(message = "염색 색깔을 입력하세요")
     private String dyeingColor;
 
     private String dyeingDecolorization;

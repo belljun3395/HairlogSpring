@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class GetDesignerDTO {
 
-    @NotNull
+    @NotNull(message = "아이디를 입력하세요")
     private Long id;
 
     private String designerName;

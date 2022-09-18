@@ -14,22 +14,22 @@ public class PostRecordDTO {
 
     private Long id;
 
-    @NotNull
+    @NotNull(message = "기록 날짜를 입력하세요")
     private String recordDate;
 
-    @NotBlank
+    @NotNull(message = "기록 가격을 입력하세요")
     private Integer recordCost;
 
-    @NotBlank
+    @NotNull(message = "디자이너 이름을 입력하세요")
     private String designerName;
 
     private String recordEtc;
 
-    @NotNull
+    @NotNull(message = "기록 만족도를 입력하세요")
     private Integer recordGrade;
 
-    @NotNull
-    private Record category;
+//    @NotNull
+//    private Record category;
 
     private SQLDate sqldate;
 

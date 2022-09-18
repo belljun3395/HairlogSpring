@@ -34,7 +34,6 @@ public class RecordSortController {
 
     // todo sql문 작성해야함
     @GetMapping("/{category}")
-
     public List<GetRecordDTO> getCategoryMain(@SessionAttribute(value = LoginMember) Member loginMember, @PathVariable("category") String category) {
         List<Record> records = recordService.getRecordByCategory(loginMember.getId(), category);
         ArrayList<GetRecordDTO> getRecordDTOS = recordsToListDTO(records);

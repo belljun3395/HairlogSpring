@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 
 import static jongjun.hairlog.web.SessionConst.LoginMember;
@@ -35,7 +36,7 @@ public class RecordUpdateController {
 
     // todo 추후 이미지처리도 해야함 현재는 이미지 빼고
     @PostMapping("/cut")
-    public long postUpdateCutRecord(@SessionAttribute(value = LoginMember) Member loginMember, PostRecordDTO recordDTO, PostCutDTO cutDTO) throws ParseException {
+    public long postUpdateCutRecord(@SessionAttribute(value = LoginMember) Member loginMember, @Valid PostRecordDTO recordDTO, @Valid PostCutDTO cutDTO) throws ParseException {
         Cut cut = cutDTO.toEntity(recordDTO);
         Member member = memberService.persistMember(loginMember);
         member.addRecord(cut, cut.getDesigner());
@@ -43,7 +44,7 @@ public class RecordUpdateController {
     }
 
     @PostMapping("/perm")
-    public long postUpdatePermRecord(@SessionAttribute(value = LoginMember) Member loginMember, PostRecordDTO recordDTO, PostPermDTO permDTO) throws ParseException {
+    public long postUpdatePermRecord(@SessionAttribute(value = LoginMember) Member loginMember, @Valid PostRecordDTO recordDTO, @Valid PostPermDTO permDTO) throws ParseException {
         Perm perm = permDTO.toEntity(recordDTO);
         Member member = memberService.persistMember(loginMember);
         member.addRecord(perm, perm.getDesigner());
@@ -51,7 +52,7 @@ public class RecordUpdateController {
     }
 
     @PostMapping("dyeing")
-    public long postUpdateDyeingRecord(@SessionAttribute(value = LoginMember) Member loginMember, PostRecordDTO recordDTO, PostDyeingDTO dyeingDTO) throws ParseException {
+    public long postUpdateDyeingRecord(@SessionAttribute(value = LoginMember) Member loginMember, @Valid PostRecordDTO recordDTO, @Valid PostDyeingDTO dyeingDTO) throws ParseException {
         Dyeing dyeing = dyeingDTO.toEntity(recordDTO);
         Member member = memberService.persistMember(loginMember);
         member.addRecord(dyeing, dyeing.getDesigner());

@@ -13,8 +13,10 @@ import jongjun.hairlog.web.dto.post.PostRecordDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 
 import static jongjun.hairlog.web.SessionConst.LoginMember;
@@ -32,7 +34,7 @@ public class RecordPostController {
     // todo 추후 이미지처리도 해야함 현재는 이미지 빼고
     @PostMapping("/cut")
     @Transactional
-    public long postCutRecord(@SessionAttribute(value = LoginMember) Member loginMember, PostRecordDTO recordDTO, PostCutDTO cutDTO) throws ParseException {
+    public long postCutRecord(@SessionAttribute(value = LoginMember) Member loginMember, @Valid PostRecordDTO recordDTO, @Valid PostCutDTO cutDTO) throws ParseException {
         Cut cut = cutDTO.toEntity(recordDTO);
         Member member = memberService.persistMember(loginMember);
         member.addRecord(cut, cut.getDesigner());
@@ -40,7 +42,7 @@ public class RecordPostController {
     }
 
     @PostMapping("/perm")
-    public long postPermRecord(@SessionAttribute(value = LoginMember) Member loginMember, PostRecordDTO recordDTO, PostPermDTO permDTO) throws ParseException {
+    public long postPermRecord(@SessionAttribute(value = LoginMember) Member loginMember, @Valid PostRecordDTO recordDTO, @Valid PostPermDTO permDTO) throws ParseException {
         Perm perm = permDTO.toEntity(recordDTO);
         Member member = memberService.persistMember(loginMember);
         member.addRecord(perm, perm.getDesigner());
@@ -48,7 +50,7 @@ public class RecordPostController {
     }
 
     @PostMapping("dyeing")
-    public long postDyeingRecord(@SessionAttribute(value = LoginMember) Member loginMember, PostRecordDTO recordDTO, PostDyeingDTO dyeingDTO) throws ParseException {
+    public long postDyeingRecord(@SessionAttribute(value = LoginMember) Member loginMember, @Valid PostRecordDTO recordDTO, @Valid PostDyeingDTO dyeingDTO) throws ParseException {
         Dyeing dyeing = dyeingDTO.toEntity(recordDTO);
         Member member = memberService.persistMember(loginMember);
         member.addRecord(dyeing, dyeing.getDesigner());

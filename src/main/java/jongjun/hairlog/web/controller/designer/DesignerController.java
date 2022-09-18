@@ -29,12 +29,7 @@ public class DesignerController {
     private final MemberService memberService;
 
     @PostMapping
-    public Long postDesigner(@SessionAttribute(value = LoginMember) Member loginMember, @Validated PostDesignerDTO postDesignerDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
-            throw new IllegalStateException(bindingResult.getFieldError()
-                                                         .getDefaultMessage());
-        }
+    public Long postDesigner(@SessionAttribute(value = LoginMember) Member loginMember, @Validated PostDesignerDTO postDesignerDTO) {
         Designer designer = postDesignerDTO.toEntity();
         Member member = memberService.persistMember(loginMember);
         member.addDesigner(designer);
@@ -43,12 +38,7 @@ public class DesignerController {
     }
 
     @PostMapping("/update")
-    public Long updateDesigner(@Validated PostDesignerDTO postDesignerDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
-            throw new IllegalStateException(bindingResult.getFieldError()
-                                                         .getDefaultMessage());
-        }
+    public Long updateDesigner(@Validated PostDesignerDTO postDesignerDTO) {
         Designer designer = postDesignerDTO.toEntity();
         return designerService.postDesigner(designer)
                               .getId();

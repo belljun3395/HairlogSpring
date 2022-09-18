@@ -10,7 +10,6 @@ import jongjun.hairlog.web.dto.post.PostMemberDTO;
 import jongjun.hairlog.web.dto.post.PostPrivacyDateDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,24 +31,13 @@ public class MemberController {
     private final RecordRepository recordRepository;
 
     @PostMapping("/join")
-    public Long join(@Validated PostMemberDTO postMemberDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
-            throw new IllegalStateException(bindingResult.getFieldError()
-                                                         .getDefaultMessage());
-        }
+    public Long join(@Validated PostMemberDTO postMemberDTO) {
         Member member = postMemberDTO.toEntity();
         return memberService.join(member);
     }
 
     @PostMapping("/authenticate")
-    public void login(HttpServletRequest req, @Validated LoginDTO loginDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
-            throw new IllegalStateException(bindingResult.getFieldError()
-                                                         .getDefaultMessage());
-        }
-
+    public void login(HttpServletRequest req, @Validated LoginDTO loginDTO) {
         Member loginMember = memberService.login(loginDTO.getUserEmail(), loginDTO.getUserPassword());
         if (loginMember == null) {
             throw new IllegalStateException("로그인에 실패하였습니다");
@@ -80,12 +68,7 @@ public class MemberController {
     }
 
     @PostMapping("/update")
-    public void updatePrivacy(HttpServletRequest req, @SessionAttribute(LoginMember) Member loginMember, PostMemberDTO updateMemberRecord, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
-            throw new IllegalStateException(bindingResult.getFieldError()
-                                                         .getDefaultMessage());
-        }
+    public void updatePrivacy(HttpServletRequest req, @SessionAttribute(LoginMember) Member loginMember, PostMemberDTO updateMemberRecord) {
         PostMemberDTO postMemberDTO = new PostMemberDTO(loginMember, updateMemberRecord, new SQLDate(loginMember.getSqldate()
                                                                                                                 .getCreatedAt(), LocalDateTime.now()));
         Member memberEntity = postMemberDTO.toEntity();
@@ -102,7 +85,7 @@ public class MemberController {
                                                         .findFirst();
         // todo 기록이 없을 때 처리
         if (latestRecord.isEmpty()) {
-            throw new IllegalStateException("기록이 없습니다.");
+            throw new IllegalStateException("기록이 존재하지 않습니다.");
         }
 
         Record record = latestRecord.get();
@@ -113,4 +96,3 @@ public class MemberController {
     }
 
 }
-
