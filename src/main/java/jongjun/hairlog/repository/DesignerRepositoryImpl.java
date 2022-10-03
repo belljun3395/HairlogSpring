@@ -1,7 +1,6 @@
 package jongjun.hairlog.repository;
 
 import jongjun.hairlog.domain.designer.Designer;
-import jongjun.hairlog.domain.member.Member;
 import jongjun.hairlog.repository.repositoryInterface.DesignerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
