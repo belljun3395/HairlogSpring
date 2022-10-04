@@ -6,6 +6,7 @@ import jongjun.hairlog.repository.repositoryInterface.RecordRepository;
 import jongjun.hairlog.service.serviceInterface.RecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import javax.persistence.EntityManager;
 import java.util.List;
