@@ -3,13 +3,15 @@ package jongjun.hairlog.service;
 import jongjun.hairlog.domain.member.Member;
 import jongjun.hairlog.domain.record.Record;
 import jongjun.hairlog.repository.repositoryInterface.RecordRepository;
+import jongjun.hairlog.service.serviceInterface.MemberService;
 import jongjun.hairlog.service.serviceInterface.RecordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +22,15 @@ import java.util.Optional;
 public class RecordServiceImpl implements RecordService {
 
     private final RecordRepository recordRepository;
+    private final EntityManager em;
 
     @Override
     @Transactional
-    public Long postRecord(Record record) {
-        log.info("RecordService postRecord method parameter = [record = {}]", record);
-        return recordRepository.save(record);
+    public Long postRecord(Long memberId, Record cut) {
+        log.info("RecordService postRecord method parameter = [record = {}]", cut);
+        Member member = em.find(Member.class, memberId);
+        member.addRecord(cut, cut.getDesigner());
+        return recordRepository.save(cut);
     }
 
     @Override

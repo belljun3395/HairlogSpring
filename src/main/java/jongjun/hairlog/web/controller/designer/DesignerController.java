@@ -31,16 +31,14 @@ public class DesignerController {
     @PostMapping
     public Long postDesigner(@SessionAttribute(value = LoginMember) Member loginMember, @Validated PostDesignerDTO postDesignerDTO) {
         Designer designer = postDesignerDTO.toEntity();
-        Member member = memberService.persistMember(loginMember);
-        member.addDesigner(designer);
-        return designerService.postDesigner(designer)
+        return designerService.postDesigner(loginMember.getId(), designer)
                               .getId();
     }
 
     @PostMapping("/update")
-    public Long updateDesigner(@Validated PostDesignerDTO postDesignerDTO) {
+    public Long updateDesigner(@SessionAttribute(value = LoginMember) Member loginMember, @Validated PostDesignerDTO postDesignerDTO) {
         Designer designer = postDesignerDTO.toEntity();
-        return designerService.postDesigner(designer)
+        return designerService.postDesigner(loginMember.getId(), designer)
                               .getId();
     }
 

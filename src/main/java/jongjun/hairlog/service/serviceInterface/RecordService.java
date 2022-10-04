@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RecordService {
 
-    Long postRecord(Record record);
+    Long postRecord(Long memberId,Record record);
 
     List<Record> getRecords(Long memberId);
 

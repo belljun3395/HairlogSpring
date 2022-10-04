@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DesignerService {
 
-    Designer postDesigner(Designer designer);
+    Designer postDesigner(Long memberId, Designer designer);
 
     List<Designer> getDesigners(Long memberId);
 

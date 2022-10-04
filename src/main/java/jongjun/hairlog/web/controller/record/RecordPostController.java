@@ -12,8 +12,6 @@ import jongjun.hairlog.web.dto.post.PostCutDTO;
 import jongjun.hairlog.web.dto.post.PostRecordDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,33 +26,24 @@ import static jongjun.hairlog.web.SessionConst.LoginMember;
 public class RecordPostController {
 
     private final RecordService recordService;
-    private final MemberService memberService;
-
 
     // todo 추후 이미지처리도 해야함 현재는 이미지 빼고
     @PostMapping("/cut")
-    @Transactional
     public long postCutRecord(@SessionAttribute(value = LoginMember) Member loginMember, @Valid PostRecordDTO recordDTO, @Valid PostCutDTO cutDTO) throws ParseException {
         Cut cut = cutDTO.toEntity(recordDTO);
-        Member member = memberService.persistMember(loginMember);
-        member.addRecord(cut, cut.getDesigner());
-        return recordService.postRecord(cut);
+        return recordService.postRecord(loginMember.getId(), cut);
     }
 
     @PostMapping("/perm")
     public long postPermRecord(@SessionAttribute(value = LoginMember) Member loginMember, @Valid PostRecordDTO recordDTO, @Valid PostPermDTO permDTO) throws ParseException {
         Perm perm = permDTO.toEntity(recordDTO);
-        Member member = memberService.persistMember(loginMember);
-        member.addRecord(perm, perm.getDesigner());
-        return recordService.postRecord(perm);
+        return recordService.postRecord(loginMember.getId(), perm);
     }
 
     @PostMapping("dyeing")
     public long postDyeingRecord(@SessionAttribute(value = LoginMember) Member loginMember, @Valid PostRecordDTO recordDTO, @Valid PostDyeingDTO dyeingDTO) throws ParseException {
         Dyeing dyeing = dyeingDTO.toEntity(recordDTO);
-        Member member = memberService.persistMember(loginMember);
-        member.addRecord(dyeing, dyeing.getDesigner());
-        return recordService.postRecord(dyeing);
+        return recordService.postRecord(loginMember.getId(), dyeing);
     }
 
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
@@ -88,6 +89,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member persistMember(Member member) {
+        System.out.println("TransactionSynchronizationManager.getCurrentTransactionName() = " + TransactionSynchronizationManager.getCurrentTransactionName());
         return em.find(Member.class, member.getId());
     }
 
